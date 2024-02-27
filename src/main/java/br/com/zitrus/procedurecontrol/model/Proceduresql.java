@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Operation {
+public class Proceduresql {
 
     private Long id;
     private String name;

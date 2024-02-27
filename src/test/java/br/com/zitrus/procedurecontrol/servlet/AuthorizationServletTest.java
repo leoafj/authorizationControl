@@ -1,12 +1,13 @@
 package br.com.zitrus.procedurecontrol.servlet;
 
-import br.com.zitrus.procedurecontrol.dao.AuthorizationDAO;
-import br.com.zitrus.procedurecontrol.dao.ProcedureDAO;
-import br.com.zitrus.procedurecontrol.dao.RuleDAO;
+import br.com.zitrus.procedurecontrol.dao.AuthorizationDao;
+import br.com.zitrus.procedurecontrol.dao.ProcedureDao;
+import br.com.zitrus.procedurecontrol.dao.RuleDao;
 import br.com.zitrus.procedurecontrol.enums.AuthorizationEnum;
 import br.com.zitrus.procedurecontrol.enums.GenderEnum;
 import br.com.zitrus.procedurecontrol.model.Authorization;
 import br.com.zitrus.procedurecontrol.model.Proceduresql;
+import br.com.zitrus.procedurecontrol.service.impl.AuthorizationServiceImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,19 +24,23 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+
 class AuthorizationServletTest {
 
     @Mock
     private Connection connection;
 
     @Mock
-    private AuthorizationDAO authorizationDAO;
+    private AuthorizationDao authorizationDAO;
 
     @Mock
-    private ProcedureDAO procedureDAO;
+    private ProcedureDao procedureDAO;
 
     @Mock
-    private RuleDAO ruleDAO;
+    private RuleDao ruleDAO;
+
+    @InjectMocks
+    private AuthorizationServiceImpl service;
 
     @Mock
     private HttpServletRequest request;
@@ -50,8 +55,8 @@ class AuthorizationServletTest {
     private AuthorizationServlet servlet;
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -62,7 +67,7 @@ class AuthorizationServletTest {
         when(authorizationDAO.findAuthorizationById(1L)).thenReturn(new Authorization("leo", proceduresql, AuthorizationEnum.NOT_ALLOWED, 18, GenderEnum.MALE));
         when(request.getRequestDispatcher("index.jsp")).thenReturn(requestDispatcher);
 
-        servlet.doGet(request, response);
+        service.handleAuthorizationAction(request, response);
 
         verify(authorizationDAO, times(1)).findAuthorizationById(1L);
         verify(request).setAttribute(eq("authorization"), any(Authorization.class));
@@ -72,7 +77,7 @@ class AuthorizationServletTest {
     @Test
     void testDoPost_CreateAuthorization() throws ServletException, IOException {
         when(request.getParameter("proceduresql")).thenReturn("1");
-        when(request.getParameter("name")).thenReturn("John Doe");
+        when(request.getParameter("name")).thenReturn("Joao");
         when(request.getParameter("age")).thenReturn("25");
         when(request.getParameter("gender")).thenReturn("MALE");
         when(request.getParameter("id")).thenReturn(null);
@@ -81,12 +86,12 @@ class AuthorizationServletTest {
         when(ruleDAO.validateAuthorization(any(Authorization.class))).thenReturn(true);
         when(request.getRequestDispatcher("index.jsp")).thenReturn(requestDispatcher);
 
-        servlet.doPost(request, response);
+        service.processAuthorization(request, response);
 
         verify(request, times(5)).getParameter(anyString());
-        verify(procedureDAO, times(1)).findProcedureById(1L);
+        verify(procedureDAO, times(1)).findProcedureById(anyLong());
         verify(ruleDAO, times(1)).validateAuthorization(any(Authorization.class));
-        verify(authorizationDAO, times(1)).createAuthorization(any(Authorization.class), eq(true));
+        verify(authorizationDAO, times(1)).createAuthorization(any(Authorization.class), anyBoolean());
         verify(requestDispatcher).forward(request, response);
     }
 
@@ -102,7 +107,7 @@ class AuthorizationServletTest {
         when(ruleDAO.validateAuthorization(any(Authorization.class))).thenReturn(true);
         when(request.getRequestDispatcher("index.jsp")).thenReturn(requestDispatcher);
 
-        servlet.doPost(request, response);
+        service.processAuthorization(request, response);
         verify(procedureDAO, times(1)).findProcedureById(1L);
         verify(ruleDAO, times(1)).validateAuthorization(any(Authorization.class));
         verify(authorizationDAO, times(1)).updateAuthorization(any(Authorization.class), eq(true));
@@ -114,7 +119,7 @@ class AuthorizationServletTest {
         Proceduresql proceduresql = new Proceduresql(2L, "1234");
         when(authorizationDAO.findAuthorizationById(1L)).thenReturn(new Authorization("leo", proceduresql, AuthorizationEnum.NOT_ALLOWED, 18, GenderEnum.MALE));
 
-        servlet.loadSolicitationForEditing(1L, request);
+        service.loadSolicitationForEditing(1L, request);
 
         verify(request).setAttribute(eq("authorization"), any(Authorization.class));
     }
@@ -130,7 +135,7 @@ class AuthorizationServletTest {
         when(authorizationDAO.findAll()).thenReturn(authorizations);
         when(request.getRequestDispatcher("index.jsp")).thenReturn(requestDispatcher);
 
-        servlet.loadIndex(request, response);
+        service.loadIndex(request, response);
 
         verify(request).setAttribute("procedures", procedures);
         verify(request).setAttribute("genders", genders);

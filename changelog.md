@@ -1,8 +1,23 @@
-# VoteSystem Changelog
+# ProcedureControl Changelog
 
 Todas as alterações do projeto devem ser documentadas neste arquivo.
 
 O formato é baseado no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [0.7.0] - 2024-02-27
+
+## Added
+
+- Servlet mapping on web.xml
+- Improve decoupling - service and dao 
+- Improve architecture package
+- refactored and extracted methods on AuthorizationService
+
+## [0.6.0] - 2024-02-26
+
+## Added
+
+- Lombok Annotations - Model class is better readable
 
 ## [0.5.0] - 2023-12-04
 
@@ -53,12 +68,22 @@ AuthorizationServlet
 
 ## Added
 
-ProcedureDAO
+### AuthorizationDAO
+- createAuthorization
+- createAuthorizationSql
+- findAll
+- findAuthorizationById
+- updateAuthorization
+- updateAuthorizationSql
+- createAuthorizationFromResultSet
+- deleteAuthorization
+- cancelAuthorization
+
+### ProcedureDAO
 - getAllProcedure
 - findProcedureById
 
-RuleDAO
-
+### RuleDAO
 - validateAuthorization
 - validateAuthorizationSql
 
@@ -66,7 +91,7 @@ RuleDAO
 
 ## Added
 
-AuthorizarionDAO
+- AuthorizarionDAO
 - createAuthorization
 - findAll
 - findAuthorizationById

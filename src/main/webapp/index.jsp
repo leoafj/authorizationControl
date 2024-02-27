@@ -34,7 +34,7 @@
           <option value="">Select</option>
           <c:forEach items="${procedures}" var="item">
             <c:choose>
-              <c:when test="${item.id == authorization.getProcedure().getId()}">
+              <c:when test="${item.id == authorization.getProceduresql().getId()}">
                 <option selected value="${item.id}">${item.name}</option>
               </c:when>
               <c:otherwise>
@@ -52,7 +52,7 @@
 
       <div class="w-25">
         <label for="gender" class="form-label">Gender:</label>
-        <select id="gender" name="gender" pattern="^\d+$" required class="form-select"/>
+        <select id="gender" name="gender" pattern="^\d+$" required class="form-select">
         <option value="">Select</option>
         <c:forEach items="${genders}" var="item">
           <c:choose>
@@ -85,7 +85,7 @@
     <tbody>
     <c:forEach var="authorization" items="${authorizations}">
       <tr>
-        <td>${authorization.getProcedure().getName()}</td>
+        <td>${authorization.getProceduresql().getName()}</td>
         <td>${authorization.getName()}</td>
         <td>${authorization.getAge()}</td>
         <td>${authorization.getGender().getDescription()}</td>

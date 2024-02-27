@@ -1,5 +1,6 @@
-package br.com.zitrus.procedurecontrol.dao;
+package br.com.zitrus.procedurecontrol.dao.impl;
 
+import br.com.zitrus.procedurecontrol.dao.RuleDao;
 import br.com.zitrus.procedurecontrol.model.Authorization;
 
 import java.sql.Connection;
@@ -7,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RuleDAO {
+public class RuleDaoImpl implements RuleDao {
 
     private final Connection connection;
 
-    public RuleDAO(Connection connection) {
+    public RuleDaoImpl(Connection connection) {
         this.connection = connection;
     }
 

@@ -1,7 +1,10 @@
 package br.com.zitrus.procedurecontrol.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum AuthorizationEnum {
 
     ALLOWED("A", "ALLOWED"),
@@ -14,14 +17,6 @@ public enum AuthorizationEnum {
     AuthorizationEnum(String value, String description) {
         this.value = value;
         this.description = description;
-    }
-
-    public String getValue(){
-        return value;
-    }
-
-    public String getDescription(){
-        return description;
     }
 
 

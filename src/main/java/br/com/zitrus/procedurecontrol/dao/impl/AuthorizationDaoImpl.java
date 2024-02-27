@@ -1,5 +1,6 @@
-package br.com.zitrus.procedurecontrol.dao;
+package br.com.zitrus.procedurecontrol.dao.impl;
 
+import br.com.zitrus.procedurecontrol.dao.AuthorizationDao;
 import br.com.zitrus.procedurecontrol.enums.AuthorizationEnum;
 import br.com.zitrus.procedurecontrol.enums.GenderEnum;
 import br.com.zitrus.procedurecontrol.model.Authorization;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorizationDaoImpl {
+public class AuthorizationDaoImpl implements AuthorizationDao {
 
     private final Connection connection;
 
@@ -73,13 +74,11 @@ public class AuthorizationDaoImpl {
             while (resultSet.next()) {
                 authorization = createAuthorizationFromResultSet(resultSet);
             }
-
             preparedStatement.close();
             resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return authorization;
     }
 
@@ -119,7 +118,7 @@ public class AuthorizationDaoImpl {
         GenderEnum gender = GenderEnum.fromValue(resultSet.getString("gender"));
         AuthorizationEnum authorizationEnum = AuthorizationEnum.fromValue(resultSet.getString("allowed"));
 
-        ProcedureDAO procedureDAO = new ProcedureDAO(connection);
+        ProcedureDaoImpl procedureDAO = new ProcedureDaoImpl(connection);
         Proceduresql proceduresql = procedureDAO.findProcedureById(procedureId);
 
         return new Authorization(id, name, proceduresql, authorizationEnum, age, gender);

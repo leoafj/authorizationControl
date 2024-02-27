@@ -1,7 +1,10 @@
 package br.com.zitrus.procedurecontrol.enums;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum GenderEnum {
 
     MALE("M","MALE"),
@@ -15,14 +18,6 @@ public enum GenderEnum {
 
     private final String value;
     private final String description;
-
-    public String getValue(){
-        return value;
-    }
-
-    public String getDescription(){
-        return description;
-    }
 
     public static GenderEnum fromValue(String value) {
         return Arrays.stream(GenderEnum.values())

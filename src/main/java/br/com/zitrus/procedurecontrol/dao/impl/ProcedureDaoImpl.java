@@ -1,5 +1,6 @@
-package br.com.zitrus.procedurecontrol.dao;
+package br.com.zitrus.procedurecontrol.dao.impl;
 
+import br.com.zitrus.procedurecontrol.dao.ProcedureDao;
 import br.com.zitrus.procedurecontrol.model.Proceduresql;
 
 import java.sql.Connection;
@@ -9,11 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProcedureDAO {
+public class ProcedureDaoImpl implements ProcedureDao {
 
     private final Connection connection;
 
-    public ProcedureDAO(Connection connection) {
+    public ProcedureDaoImpl(Connection connection) {
         this.connection = connection;
     }
 

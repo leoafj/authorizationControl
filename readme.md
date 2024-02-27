@@ -1,10 +1,10 @@
-# VoteSystem
+# Procedure control
 
-O VoteSystem é uma aplicação java para gerenciar sessões, com ela podemos criar várias sessões com tempo determinado para votação e votar apenas uma vez por associado, e assim que o tempo de votação acabar, gera o resultado da assembleia.
+O Procedure control é uma aplicação para realizar o controle de autorizações de um plano de saúde nele você pode registrar, atualizar, deletar e cancelar autorizações.
 
 ## 🚀 Começando
 
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste, na pasta raiz, contém uma coleção do postman caso prefira testar por ele.
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste, na pasta raiz, contém um script.sql para inserir dados iniciais por ele.
 
 
 ### 📋 Pré-requisitos
@@ -64,7 +64,7 @@ password: root
 
 
 
-* **Leonardo** - *Desenvolvedor* - [Leonardo](https://github.com/viniciius083)
+* **Leonardo** - *Desenvolvedor* - [Linkedin - Leonardo ](https://linkedin.com/in/leoafj)
 
 
 

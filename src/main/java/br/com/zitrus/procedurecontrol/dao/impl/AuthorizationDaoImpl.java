@@ -12,11 +12,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorizationDAO {
+public class AuthorizationDaoImpl {
 
     private final Connection connection;
 
-    public AuthorizationDAO(Connection connection) {
+    public AuthorizationDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
@@ -25,7 +25,7 @@ public class AuthorizationDAO {
             String sql = createAuthorizationSql();
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setLong(1, authorization.getProcedure().getId());
+                preparedStatement.setLong(1, authorization.getProceduresql().getId());
                 preparedStatement.setString(2, authorization.getName());
                 preparedStatement.setInt(3, authorization.getAge());
                 preparedStatement.setString(4, authorization.getGender().getValue());
@@ -35,6 +35,13 @@ public class AuthorizationDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao criar autorização", e);
         }
+    }
+
+    private String createAuthorizationSql() {
+        return "INSERT INTO authorization " +
+                "(procedureid, name, age, gender, allowed) " +
+                "VALUES " +
+                "(?, ?, ?, ?, ?)";
     }
 
     public List<Authorization> findAll() {
@@ -61,8 +68,8 @@ public class AuthorizationDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, procedureid, name, age, gender, allowed FROM authorization WHERE id = ?");
             preparedStatement.setLong(1, id);
-
             ResultSet resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
                 authorization = createAuthorizationFromResultSet(resultSet);
             }
@@ -80,7 +87,7 @@ public class AuthorizationDAO {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(updateAuthorizationSql());
             preparedStatement.setLong(1, authorization.getId());
-            preparedStatement.setLong(2, authorization.getProcedure().getId());
+            preparedStatement.setLong(2, authorization.getProceduresql().getId());
             preparedStatement.setString(3, authorization.getName());
             preparedStatement.setInt(4, authorization.getAge());
             preparedStatement.setString(5, authorization.getGender().getValue());
@@ -139,12 +146,5 @@ public class AuthorizationDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private String createAuthorizationSql() {
-        return "INSERT INTO authorization " +
-                "(procedureid, name, age, gender, allowed) " +
-                "VALUES " +
-                "(?, ?, ?, ?, ?)";
     }
 }

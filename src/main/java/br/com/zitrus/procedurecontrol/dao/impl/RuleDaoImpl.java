@@ -20,7 +20,7 @@ public class RuleDAO {
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(validateAuthorizationSql());
-            preparedStatement.setLong(1, authorization.getProcedure().getId());
+            preparedStatement.setLong(1, authorization.getProceduresql().getId());
             preparedStatement.setInt(2, authorization.getAge());
             preparedStatement.setString(3, authorization.getGender().getValue());
 
@@ -31,7 +31,7 @@ public class RuleDAO {
             resultSet.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Invalid authorization: " + e.getMessage());
         }
 
         return hasRule;

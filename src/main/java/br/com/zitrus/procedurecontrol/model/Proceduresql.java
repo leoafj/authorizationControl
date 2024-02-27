@@ -1,20 +1,17 @@
 package br.com.zitrus.procedurecontrol.model;
 
-public class Proceduresql {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Operation {
 
     private Long id;
     private String name;
 
-    public Proceduresql(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

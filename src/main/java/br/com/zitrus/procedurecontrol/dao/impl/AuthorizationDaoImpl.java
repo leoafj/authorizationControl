@@ -34,7 +34,7 @@ public class AuthorizationDaoImpl implements AuthorizationDao {
                 preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao criar autorização", e);
+            throw new RuntimeException("Invalid Authorization", e);
         }
     }
 

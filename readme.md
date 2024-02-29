@@ -10,50 +10,51 @@ Essas instruções permitirão que você obtenha uma cópia do projeto em opera�
 ### 📋 Pré-requisitos
 
 Para executar o projeto, é necessário ter:
-1. intellij
-2. mysql
-3. wildfly
+1. Docker desktop
+2. mysql container
+3. wildfly container
 
-
-## 📦 Como rodar a aplicação
+## 📦 Como rodar a aplicação(Docker)
 
 1. Antes de tudo, devemos clonar o projeto:
 ```
 Clone este repositório: git clone https://github.com/leoafj/authorizationControl.git
 ```
 
-2. Acesse o do projeto:
+3. No terminal inicialize o banco de dados mysql:
 ```
-utilize o intellij para abrir o projeto
+docker run --name mysql_zitrus -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8
 ```
-
-3. Abra um terminal dentro do intellij no diretorio do projeto:
+4. Rode o script zitrus.sql para termos alguns dados iniciais:
 ```
-$ mvn clean install -U
+docker cp zitrus.sql mysql_zitrus:/zitrus.sql
+docker exec -it mysql_zitrus mysql -p
+digite a senha: root
+source /zitrus.sql
+aperte crtl+D para sair
 ```
-
-4. Instale o Jboss/wildfly 29.0.1.Final no link https://www.wildfly.org/downloads/:
+5. Acesse o do projeto, abre o connection factory e altere o endereço localhost pelo seu endereço, 
+rode o comando abaixo no powershell e altere o ip no connection factory:
 ```
-$ Extraia a pasta
-```
-
-5. Vá em File > Settings e procure por Application Servers.
-
-Clique no + e depois em JBoss/WildFly Server, especifique o caminho do JBoss/WildFly e clique em OK e a seguir em Apply.
-
-Após isso vá em Run > Edit Configurations e clique em + e adicione um Jboss/Wildfly Server Local.
-
-Na aba Server configure a URL para ser: http://localhost:8080/procedureControl-1.0-SNAPSHOT/control e por fim vá na aba Deployment e adicione o Artifact desafio-zitrus:war exploded.
-
-6. Conecte-se ao localhost no mysql utilizando o intellij ou workbench:
-```
-usuario: root
-password: root
+docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql_zitrus
 ```
 
-7. Rode o script zitrus.sql para termos alguns dados iniciais:
+6. Rode o build da imagem:
+```
+docker build -t procedure .
+```
 
-8. Inicie o projeto para realizar as autorizações
+7. Rode o comando para iniciar a imagem:
+```
+docker run --name procedure_control -p 8080:8080 -p 9990:9990  procedure
+```
+
+8. Acesse a interface da aplicação pelo endereço:
+```
+http://localhost:8080/procedureControl/control
+```
+
+9. Utilize o projeto e faça suas autorizações
 
 
 ## 📌 Versão

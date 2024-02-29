@@ -13,6 +13,7 @@ Para executar o projeto, é necessário ter:
 1. Docker desktop
 2. mysql container
 3. wildfly container
+4. Intellij
 
 ## 📦 Como rodar a aplicação(Docker)
 
@@ -33,8 +34,8 @@ digite a senha: root
 source /zitrus.sql
 aperte crtl+D para sair
 ```
-5. Acesse o do projeto, abre o connection factory e altere o endereço localhost pelo seu endereço, 
-rode o comando abaixo no powershell e altere o ip no connection factory:
+5. Acesse o projeto na IDE, abra o connection factory e altere o localhost pelo seu endereço, 
+rode o comando abaixo no powershell, copie o ip gerado e cole no localhost no connection factory:
 ```
 docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql_zitrus
 ```
